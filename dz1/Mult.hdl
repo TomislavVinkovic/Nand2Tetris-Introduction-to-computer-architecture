@@ -1,0 +1,91 @@
+CHIP Mult {
+    IN a[16], b[16];
+    OUT out[16];
+
+    /*
+        Ideja: koristiti bitshift i trivijalno mnozenje s nulom ili jedinicom za postizanje mnozenja.
+        Pristup iz osnovne skole:
+            123 x 456
+            ==========
+                  738  (123 x 6)
+                 615   (123 x 5, shiftano za jednu poziciju lijevo)
+              + 492    (123 x 4, shiftano dvije pozicije lijevo)
+             ========
+                56088
+
+                Primjeniti na binarne brojeve:
+                1011 x 1110 (11 x 14)
+                ======
+                0000   (1011 x 0)
+               1011    (1011 x 1, shiftano za jednu poziciju lijevo)
+              1011     (1011 x 1, shiftano za dvije pozicije lijevo)
+           + 1011      (1011 x 1, shiftano za tri pozicije lijevo)
+            =========
+            10011010   (154)
+
+    */
+
+    PARTS:
+        NumBitMultiplier(a=a,b=b[0],out=mult0);
+        BitShiftL(in=a,out=shiftL1);
+
+        NumBitMultiplier(a=shiftL1,b=b[1],out=mult1);
+        BitShiftL(in=shiftL1,out=shiftL2);
+
+        NumBitMultiplier(a=shiftL2,b=b[2],out=mult2);
+        BitShiftL(in=shiftL2,out=shiftL3);
+
+        NumBitMultiplier(a=shiftL3,b=b[3],out=mult3);
+        BitShiftL(in=shiftL3,out=shiftL4);
+
+        NumBitMultiplier(a=shiftL4,b=b[4],out=mult4);
+        BitShiftL(in=shiftL4,out=shiftL5);
+
+        NumBitMultiplier(a=shiftL5,b=b[5],out=mult5);
+        BitShiftL(in=shiftL5,out=shiftL6);
+
+        NumBitMultiplier(a=shiftL6,b=b[6],out=mult6);
+        BitShiftL(in=shiftL6,out=shiftL7);
+
+        NumBitMultiplier(a=shiftL7,b=b[7],out=mult7);
+        BitShiftL(in=shiftL7,out=shiftL8);
+
+        NumBitMultiplier(a=shiftL8,b=b[8],out=mult8);
+        BitShiftL(in=shiftL8,out=shiftL9);
+
+        NumBitMultiplier(a=shiftL9,b=b[9],out=mult9);
+        BitShiftL(in=shiftL9,out=shiftL10);
+
+        NumBitMultiplier(a=shiftL10,b=b[10],out=mult10);
+        BitShiftL(in=shiftL10,out=shiftL11);
+
+        NumBitMultiplier(a=shiftL11,b=b[11],out=mult11);
+        BitShiftL(in=shiftL11,out=shiftL12);
+
+        NumBitMultiplier(a=shiftL12,b=b[12],out=mult12);
+        BitShiftL(in=shiftL12,out=shiftL13);
+
+        NumBitMultiplier(a=shiftL13,b=b[13],out=mult13);
+        BitShiftL(in=shiftL13,out=shiftL14);
+
+        NumBitMultiplier(a=shiftL14,b=b[14],out=mult14);
+        BitShiftL(in=shiftL14,out=shiftL15);
+
+        NumBitMultiplier(a=shiftL15,b=b[15],out=mult15);
+
+        Add16(a=mult0, b=mult1, out=add1);
+        Add16(a=add1, b=mult2, out=add2);
+        Add16(a=add2, b=mult3, out=add3);
+        Add16(a=add3, b=mult4, out=add4);
+        Add16(a=add4, b=mult5, out=add5);
+        Add16(a=add5, b=mult6, out=add6);
+        Add16(a=add6, b=mult7, out=add7);
+        Add16(a=add7, b=mult8, out=add8);
+        Add16(a=add8, b=mult9, out=add9);
+        Add16(a=add9, b=mult10, out=add10);
+        Add16(a=add10, b=mult11, out=add11);
+        Add16(a=add11, b=mult12, out=add12);
+        Add16(a=add12, b=mult13, out=add13);
+        Add16(a=add13, b=mult14, out=add14);
+        Add16(a=add14, b=mult15, out=out);
+}
