@@ -1,0 +1,14 @@
+CHIP NumBitMultiplier {
+
+    //a je 16-bitni, nenegativan integer
+    //b je bit predstavljen sa 0 ili 1
+    //rezultat ove operacije bit će ili sam a, ili 0
+    //ovaj cip bit ce mi pomocni cip pri multiplikaciji brojeva
+
+
+    IN a[16], b;
+    OUT out[16];
+    
+    PARTS:
+        Mux16(a=false, b=a, sel=b, out=out);
+}

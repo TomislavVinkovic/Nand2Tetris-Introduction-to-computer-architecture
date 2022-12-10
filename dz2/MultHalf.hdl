@@ -1,0 +1,32 @@
+CHIP MultHalf {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+        //predznaci originalnih brojeva
+        Or(a=a[15], b=a[15], out=signA);
+        Or(a=b[15], b=b[15], out=signB);
+        
+        //eksponenti originalnih brojeva
+        Or16(a[0..4]=a[10..14], b[0..4]=a[10..14], out=exponentA);
+        Or16(a[0..4]=b[10..14], b[0..4]=b[10..14], out=exponentB);
+
+        //mantise originalnih brojeva
+        Or16(a[0..9]=a[0..9], a[10]=true, b[0..9]=a[0..9], b[10]=true, out=fractionA);
+        Or16(a[0..9]=b[0..9], a[10]=true, b[0..9]=b[0..9], b[10]=true, out=fractionB);
+
+        //sign novog broja
+        Xor(a=signA, b=signB, out=out[15]);
+
+        //eksponent novog broja
+        Add16(a=exponentA, b=exponentB, out=tempEC);
+        //eksponentu oduzmi bias(15)
+        Add16(a=tempEC, b[0]=true, b[4..15]=true, out[0..4]=out[10..14]);
+
+        //mantisa novog broja
+        //remainder je moj overflow
+        Mult(a = fractionA, b = fractionB, out[5..14] = out[0..9]);
+
+        //koliko bitova treba uzet iz ostatka?
+        //ako je true, uzimam 15 bitova, inace 4
+}

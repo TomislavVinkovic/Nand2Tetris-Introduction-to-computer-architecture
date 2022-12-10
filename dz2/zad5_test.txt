@@ -1,0 +1,57 @@
+//testiranje charactera
+@16
+D=A
+@i
+M=D
+
+@chB1
+D=A//uzmi adresu ovog karaktera
+@address
+M=D //spremi ju u polje address
+
+@SCREEN
+D=A
+@drawAddress
+M=D
+
+(TESTLOOP)
+@address
+A = M
+D = M
+
+@drawAddress
+A = M
+M = D
+
+@address
+M = M + 1 //idi na sljedeci dio karaktera
+@32
+D=A
+@drawAddress
+M = M + D //pomakni se u iduci red za crtanje
+
+@i
+M = M - 1
+D=M
+@TESTLOOP
+D; JGT
+
+
+//OFFSET
+
+//kad si gotov s petljom, inkrementiraj offset
+//provjeri je li offset 31. ako je, prijedi u skroz novi red
+@offset
+D = M //D = offset
+@31
+D = D - A //D = D - 31
+@INC_OFFSET
+D; JLE
+@offset
+D = M
+@481 //pomakni u novi red i onda za jos 15 novih redaka
+D = D + A
+@offset
+M = D
+@ELSE
+0;JMP
