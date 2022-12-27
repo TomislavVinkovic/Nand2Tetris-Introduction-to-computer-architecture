@@ -140,4 +140,4 @@ class Parser:
 
 
 if __name__ == "__main__":
-    Parser("./asm/zad2testWHILE2")
+    Parser("./test_asm/zad2testWHILE2")

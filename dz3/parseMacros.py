@@ -156,6 +156,9 @@ def _init_macros(self):
         "WHILE": 1,
         "END": 0
     }
+    self._forbidden_dest = [
+        
+    ]
     #temp ce biti rezervirana oznaka, tj, ako korisnik bude koristio temp oznaku
     #za neku svoju varijablu ili oznaku, dogodit ce se undefined behavior
     #temp_name = 'temp'
