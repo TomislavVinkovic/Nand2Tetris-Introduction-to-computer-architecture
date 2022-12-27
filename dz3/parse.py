@@ -10,7 +10,7 @@ class Parser:
     from parseLines import _parse_lines, _parse_line
     from parseSymbs import _init_symbols, _parse_symbols, _parse_labels, _parse_variables
     from parseComms import _init_comms, _parse_command, _parse_commands
-    from parseMacros import _init_macros, _parse_macro, _parse_macros, _parse_MV, _parse_SUM, _parse_SWP, _parse_WHILE
+    from parseMacros import _init_macros, _parse_macro, _parse_macros, _parse_MV, _parse_SUM, _parse_SWP, _parse_WHILE, _parse_END
     
     def __init__(self, filename):
         # Otvaramo input asemblersku datoteku.
@@ -49,7 +49,11 @@ class Parser:
         if self._flag == False:
             Parser._error("MACRO", self._line, self._errm)
             return
-        #print(self._lines)
+        # for l in self._lines:
+        #     print(l)
+
+        if len(self._while_loops) > 0: #neke while petlje su ostale nezatvorene
+            Parser._error("MACRO", self._while_loops[0][1], "Unterminated WHILE loop")
 
         self._parse_symbols()
         if self._flag == False:
@@ -136,4 +140,4 @@ class Parser:
 
 
 if __name__ == "__main__":
-    Parser("./asm/zad2test3")
+    Parser("./asm/zad2testWHILE2")
