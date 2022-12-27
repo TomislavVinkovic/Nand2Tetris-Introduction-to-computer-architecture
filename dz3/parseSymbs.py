@@ -23,6 +23,8 @@ def _parse_labels(self, line, p, o):
             self._line = o
             self._errm = f"Unidentified string after label: '{label_list[1]}'"
 
+            return line
+
         label = label_list[0]
         if len(label) == 0:
             self._flag = False

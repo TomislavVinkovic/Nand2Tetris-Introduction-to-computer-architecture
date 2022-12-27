@@ -1,6 +1,5 @@
 def _parse_commands(self):
     self._init_comms()
-    
     self._iter_lines(self._parse_command)
 
 # Ukoliko instrukcija pocinje s "@", ona je A-instrukcija te broj koji dolazi

@@ -10,6 +10,7 @@ class Parser:
     from parseLines import _parse_lines, _parse_line
     from parseSymbs import _init_symbols, _parse_symbols, _parse_labels, _parse_variables
     from parseComms import _init_comms, _parse_command, _parse_commands
+    from parseMacros import _init_macros, _parse_macro, _parse_macros, _parse_MV, _parse_SUM, _parse_SWP, _parse_WHILE
     
     def __init__(self, filename):
         # Otvaramo input asemblersku datoteku.
@@ -43,12 +44,17 @@ class Parser:
         if self._flag == False:
             Parser._error("PL", self._line, self._errm)
             return
-            
+
+        self._parse_macros()
+        if self._flag == False:
+            Parser._error("MACRO", self._line, self._errm)
+            return
+        #print(self._lines)
+
         self._parse_symbols()
         if self._flag == False:
             Parser._error("SYM", self._line, self._errm)
             return
-            
         self._parse_commands()
         if self._flag == False:
             Parser._error("COM", self._line, self._errm)
@@ -106,6 +112,18 @@ class Parser:
                 newlines.append((newline, i, o))
                 i += 1
         self._lines = newlines
+    
+    def _iter_macros(self, func):
+        newlines = []
+        i = 0
+        for(line, p, o) in self._lines:
+            nls = func(line, i, o) #newlines je lista
+            if (self._flag == False):
+                break
+            for n in nls:
+                newlines.append((n, i, o))
+                i+=1
+        self._lines = newlines
         
     @staticmethod
     def _error(src, line, msg):
@@ -118,4 +136,4 @@ class Parser:
 
 
 if __name__ == "__main__":
-    Parser("./asm/zad1_test")
+    Parser("./asm/zad2test2")
