@@ -136,4 +136,4 @@ class Parser:
 
 
 if __name__ == "__main__":
-    Parser("./asm/zad2test2")
+    Parser("./asm/zad2test3")

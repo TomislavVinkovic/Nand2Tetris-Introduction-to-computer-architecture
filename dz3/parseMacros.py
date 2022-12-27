@@ -66,10 +66,10 @@ def _parse_macro(self, line, o, p):
         return self._parse_SWP(macro, args, o, p)
 
     elif(macro == 'SUM'):
-        macro_lines = self.parse_SUM(macro, args, o, p)
+        return self._parse_SUM(macro, args, o, p)
 
     elif(macro == 'WHILE'):
-        macro_lines = self.parse_WHILE(macro, args, o, p)
+        macro_lines = self._parse_WHILE(macro, args, o, p)
 
     #vracanje praznog stringa znaci da  iter_lines nece napraviti nikakvu promjenu na stringu
     #mi smo je vec napravili ovdje
@@ -96,7 +96,15 @@ def _parse_SWP(self, macro, args, o, p):
     return lines
 
 def _parse_SUM(self, macro, args, o, p):
-    pass
+    mf = open('./macros/SUM.macro', 'r')
+    lines = mf.readlines()
+    for i in range(0, len(lines)):
+        lines[i] = lines[i].replace('[0]', args[0])
+        lines[i] = lines[i].replace('[1]', args[1])
+        lines[i] = lines[i].replace('[2]', args[2])
+        lines[i] = lines[i].strip().strip('\n')
+    mf.close()
+    return lines
 
 def _parse_WHILE(self, macro, args, o, p):
     pass
