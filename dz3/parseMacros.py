@@ -5,7 +5,6 @@ To znaci da cu od linije gdje je zapisana makro naredba tu makro naredbu zamijen
 assemblerskim kodom.
 
 Zatim je lako taj kod normalno proci funkcijom parse_command
-##DODATI NEMOGUCNOST PODVALJIVANJA NEMOGUCIH VARIJABLI(preveliki/premali brojevi, tocke, hrvatska slova...)
 """
 def _parse_macros(self):
     self._init_macros()
