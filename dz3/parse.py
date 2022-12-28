@@ -140,4 +140,4 @@ class Parser:
 
 
 if __name__ == "__main__":
-    Parser("./zad3/zad3_a")
+    Parser("./zad3/zad3_b")
