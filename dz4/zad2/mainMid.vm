@@ -1,0 +1,13 @@
+sp
+call mainMid.Main 0
+ep
+
+ 
+
+function Main 0
+    push constant 7
+    push constant 12
+    push constant 11
+    call mid.mid 3
+    pop static 1
+    return

@@ -1,0 +1,17 @@
+sp
+call mainDivmod.Main 0
+ep
+
+
+function Main 0
+    push constant 20
+    push constant 3
+    call divmod.div 2
+    pop static 1
+
+    push constant 20
+    push constant 3
+    call divmod.mod 2
+    pop static 2
+    
+    return

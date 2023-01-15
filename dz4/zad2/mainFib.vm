@@ -1,0 +1,11 @@
+sp
+call mainFib.Main 0
+ep
+
+ 
+
+function Main 0
+    push constant 10
+    call fib.fib 1
+    pop static 1
+    return
