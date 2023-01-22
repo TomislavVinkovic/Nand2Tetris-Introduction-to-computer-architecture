@@ -1,0 +1,49 @@
+class Main {
+    function void main() {
+        var int i, a;
+        var VInt vec, vec2;
+
+        let vec = VInt.new(0);
+
+        let i = 0;
+        while(i < 20) {
+            do vec.set(i, (i+1));
+            let i = i+1;
+        }
+        do vec.print();
+        
+        let vec2 = VInt.new(5);
+
+        let i = 0;
+        let a = 20;
+        while(i < 20) {
+            do vec2.set(i, (a));
+            let i = i+1;
+            let a = a-1;
+        }
+
+        //trebalo bi biti not equal
+        if(VInt.is_eq(vec, vec2)) {
+            do Output.printString("Equal");
+            do Output.println();
+        }
+        else {
+            do Output.printString("Not Equal");
+            do Output.println();
+        }
+
+        //trebalo bi biti equal by elems
+        if(VInt.elems(vec, vec2)) {
+            do Output.printString("Equal by elems");
+            do Output.println();
+        }
+        else {
+            do Output.printString("Not Equal by elems");
+            do Output.println();
+        }
+
+        do vec.dispose();
+        do vec2.dispose();
+        return;
+    }
+}

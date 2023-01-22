@@ -1,0 +1,184 @@
+class VInt {
+    field int capacity, size;
+    field Array arr;
+
+    method void print() {
+        var int i;
+        while(i < size)
+        {
+            do Output.printInt(arr[i]);
+            do Output.printString(" ");
+            let i = i + 1;
+        }
+
+        do Output.println();
+
+        return;
+    }
+
+
+    function int pow2n(int n) {
+        var int retVal, i;
+        let retVal = 1;
+        let i = 0;
+        while(i < n) {
+            let retVal = retVal * 2;
+            let i = i+1;
+        }
+        return retVal;
+    }
+
+    function int log2(int n) {
+        var int l;
+
+
+        if((n = 1) | (n = 0)) {
+            return 0;
+        }
+
+        let l = 0;
+
+        while((n > 2) | (n = 2)) {
+            let l = l+1;
+            let n = n/2;
+        }
+
+        return l;
+    }
+
+    //helper method, I will use quicksort for this
+    method void sort() {
+        do QuickSort.quickSort(arr, 0, (capacity-1));
+        return;
+    }
+
+    //constructor
+    constructor VInt new(int n) {
+        if(n < 0) {
+            let capacity = 1;
+            let arr = Array.new(1);
+            return this;
+        }
+        
+        let capacity = VInt.pow2n(n);
+        let size = 0;
+        let arr = Array.new(capacity);
+        return this;
+    }
+    //destructor
+    method void dispose() {
+        do arr.dispose();
+        return;
+    }
+
+    method void resize(int m) {
+        var int t, i, minimum;
+        var Array newArr;
+
+        if(m < 0) {
+            let t = arr[0];
+            do arr.dispose();
+            let capacity = 1;
+            let arr = Array.new(1);
+            let arr[0] = t;
+            return;
+        }
+        let t = VInt.pow2n(m);
+        let minimum = Math.min(capacity, t);
+
+        let newArr = Array.new(t);
+        let i = 0;
+
+        while(i < minimum) {
+            let newArr[i] = arr[i];
+            let i = i+1;
+        }
+        do arr.dispose();
+        let capacity = t;
+        let arr = newArr;
+        return;
+    }
+
+    //setters
+    method void set(int k, int v) {
+        var int l, c;
+        if(k > (capacity-1)) {
+            let c = capacity;
+            while(c < k | c = k) {
+                let c = c * 2;
+            }
+            let l = VInt.log2(c);
+            do resize(l);
+        }
+        let arr[k] = v;
+        let size = Math.max(size, (k+1));
+        return;
+    }
+
+    //getters
+    method int get(int k) {
+        //nije me briga za overflow, korisnik
+        //mora sam brinuti o memoriji, kao i kod
+        //vektora u stl-u
+        return arr[k];
+    }
+
+    method int len() {
+        return capacity;
+    }
+
+    method Array array() {
+        return arr;
+    }
+
+    method VInt copy() {
+        var VInt vCopy;
+        var int l, i;
+
+        let l = VInt.log2(capacity);
+        let vCopy = VInt.new(l);
+
+        let i = 0;
+        while(i < capacity) {
+            do vCopy.set(i, arr[i]);
+            let i = i+1;
+        }
+        return vCopy;
+    }
+
+    //static
+    function bool is_eq(VInt v1, VInt v2) {
+        var int i;
+        if(~(v1.len() = v2.len())) {
+            return false;
+        }
+
+        let i = 0;
+        while(i < (v1.len())) {
+            if(~(v1.get(i) = v2.get(i))) {
+                return false;
+            }
+            let i = i+1;
+        }
+
+        return true;
+    }
+
+    function bool elems(VInt v1, VInt v2) {
+        var bool eq;
+        var VInt v1Cpy, v2Cpy;
+        
+        let v1Cpy = v1.copy();
+        let v2Cpy = v2.copy();
+
+        do v1Cpy.sort();
+        do v2Cpy.sort();
+
+        let eq = VInt.is_eq(v1Cpy, v2Cpy);
+
+        do v1Cpy.dispose();
+        do v2Cpy.dispose();
+
+        return eq;
+    }
+}

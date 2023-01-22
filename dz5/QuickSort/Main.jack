@@ -1,0 +1,72 @@
+class Main {
+
+    function void printArray(Array arr, int n) {
+        var int i;
+
+        let i = 0;
+        while(i < n) {
+            do Output.printInt(arr[i]);
+            do Output.printString(" ");
+            let i = i+1;
+        }
+
+        return;
+    }
+
+    function void swap(Array arr, int i, int j) {
+        var int temp;
+        let temp = arr[i];
+        let arr[i] = arr[j];
+        let arr[j] = temp;
+
+        return;
+    }
+
+    function int partition(Array arr, int l, int h) {
+        var int pivot, i, j;
+
+        let pivot = arr[h];
+        let i = l - 1;
+
+        let j = l;
+        while( (j < h) | (j = (h-1))) {
+            if(arr[j] < pivot) {
+                let i = i+1;
+                do Main.swap(arr, i, j);
+            }
+            let j = j+1;
+        }
+        do Main.swap(arr, (i+1), h);
+        return (i+1);
+    }
+
+    function void quickSort(Array arr, int l, int h) {
+        var int pivot;
+        if(l < h) {
+            let pivot = Main.partition(arr, l, h);
+            do Main.quickSort(arr, l, (pivot-1));
+            do Main.quickSort(arr, (pivot+1), h);
+        }
+        return;
+    }
+
+    function void main() {
+        var Array arr;
+        let arr = Array.new(6);
+
+        let arr[0] = 10;
+        let arr[1] = 7;
+        let arr[2] = 8;
+        let arr[3] = 9;
+        let arr[4] = 1;
+        let arr[5] = 5;
+
+        do Main.printArray(arr, 6);
+        do Output.println();
+        do Main.quickSort(arr, 0, 5);
+        do Main.printArray(arr, 6);
+
+        do arr.dispose();
+        return;
+    }
+}
