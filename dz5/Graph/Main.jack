@@ -1,0 +1,11 @@
+class Main
+{
+    function void main()
+    {
+        var Graph graph;
+        let graph = Graph.new(50,50);
+        do graph.draw();
+        do graph.dispose();
+        return;
+    }
+}

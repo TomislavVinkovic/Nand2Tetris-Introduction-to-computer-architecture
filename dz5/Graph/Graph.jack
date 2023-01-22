@@ -1,0 +1,75 @@
+class Graph {
+    field Array arrX, arrY;
+    field int xOffset, yOffset;
+    constructor Graph new(int xOff, int yOff) {
+        //[0..64] => [-32..32]
+        let xOffset = xOff;
+        let yOffset = yOff;
+        let arrX = Array.new(65);
+        let arrY = Array.new(65);
+        return this;
+    }
+
+    method void drawAxes() {
+        do Screen.drawLine(0 + xOffset, 128 + yOffset, 255 + xOffset, 128 + yOffset);
+        do Screen.drawLine(128 + xOffset, 0, 128 + xOffset, 255);
+        return;
+    }
+
+    method int f(int x) {
+        //add custom method here
+        return x*x*x;
+    }
+
+    method void drawDots(Array arrX, Array arrY) {
+        var int x, y, i;
+        //crtanje piksela
+        let x = -32;
+        while(x < 33) {
+            let arrX[i] = x;
+            let y = f(x);
+
+            if((y > -33) & (y < 33)) {
+                let arrY[i] = y;
+                do Screen.drawPixel(x + 128 + xOffset, 128 + yOffset - y);
+            }
+            let x = x+1;
+            let i = i+1;
+        }
+        return;
+    }
+
+    method void interpolate(Array arrX, Array arrY) {
+        var int x, y, i;
+        //spajanje tih piksela zajedno
+        let i = 0;
+        while(i < 64) {
+            //gledam je li rezultat funkcije zapravo u arrayu
+            if((arrY[i] = f(arrX[i])) & (arrY[i+1] = f(arrX[i+1]))) {
+                do Screen.drawLine(128 + arrX[i] + xOffset, 128 - arrY[i] + yOffset, 128 + arrX[i + 1] + xOffset, 128 - arrY[i + 1] + yOffset);
+            }
+            let i = i+1;
+        }
+        return;
+    }
+
+    method void interpolateAndDrawFunction() {
+        do drawDots(arrX, arrY);
+        do interpolate(arrX, arrY);
+
+        return;
+    }
+
+    method void draw() {
+        //prvo nacrtaj osi, onda interpoliraj funkciju
+        do drawAxes();
+        do interpolateAndDrawFunction();
+        return;
+    }
+
+    method void dispose() {
+        do arrX.dispose();
+        do arrY.dispose();
+        return;
+    }
+}
