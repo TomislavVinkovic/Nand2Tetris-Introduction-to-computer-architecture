@@ -1,0 +1,25 @@
+/*
+	Square game.
+   //Square
+// Ovo bi inace trebalo bacit error kad nisam fixao */
+
+class Square
+{
+	/*
+	Da dokazem da radi kak spada
+	tu cu napravit ovo
+	// */
+	static int i, j;
+	field char c;
+	static string s;
+	field boolean u, v, w, x, y, z;
+    
+    
+    method void test(int a, int b, char ctest)
+	{
+        var int a, b, c;
+        var Array A, B, C;
+		let b = 3;
+	}
+
+}

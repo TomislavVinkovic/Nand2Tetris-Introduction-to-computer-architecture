@@ -25,8 +25,8 @@ CHIP MultHalf {
 
         //mantisa novog broja
         //remainder je moj overflow
-        Mult(a = fractionA, b = fractionB, out[5..14] = out[0..9]);
-
+        //Mult(a = fractionA, b = fractionB, out[5..14] = out[0..9]);
+        Or16(a=false, b=false, out=out)
         //koliko bitova treba uzet iz ostatka?
         //ako je true, uzimam 15 bitova, inace 4
 }
