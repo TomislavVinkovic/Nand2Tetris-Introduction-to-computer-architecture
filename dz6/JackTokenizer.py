@@ -224,7 +224,6 @@ class Tokenizer:
 
         self._tokenType = TK_NONE
 
-    # Znamo da je token int pa ga parsiramo.
     def _parseInt(self):
         ret = 0
         while len(self._line):
@@ -232,11 +231,11 @@ class Tokenizer:
             if c in numberChars:
                 ret = ret * 10 + int(c)
             else:
-                if c in ';)] ':
+                if c in ';)], ':
                     break
-                raise JackError()
+                raise JackError(f"Fatal error: Invalid integer constant on line {str(self._lineNum)}")
             if(ret > 32767):
-                raise JackError()
+                raise JackError(f"Fatal error: Integer overflow on line {str(self._lineNum)}")
             self._line = self._line[1:]
         return ret
 

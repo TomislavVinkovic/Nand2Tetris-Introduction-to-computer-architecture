@@ -15,11 +15,18 @@ class Square
 	field boolean u, v, w, x, y, z;
     
     
-    method void test(int a, int b, char ctest)
+    method void test(int a, int b, int c)
 	{
-        var int a, b, c;
+        var int d, e, f;
         var Array A, B, C;
-		let b = 3;
+		let d = 3;
+		let e = 1;
+		return;
+	}
+
+	method int doTest() {
+		do test(2, 3 ,4);
+		return 0;
 	}
 
 }

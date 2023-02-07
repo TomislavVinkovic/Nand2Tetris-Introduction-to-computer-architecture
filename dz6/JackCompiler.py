@@ -287,7 +287,27 @@ class Compiler:
         ENTRY: Tokenizer positioned on the first statement.
         EXIT:  Tokenizer positioned after final statement.
         """
-        pass
+        self._writeXMLTag("<statements>\n")
+        statementType = self._expectKeyword((KW_LET, KW_IF, KW_WHILE, KW_DO, KW_RETURN))
+
+        while True:
+            if self._tokenizer.tokenType() == TK_KEYWORD:
+                if self._tokenizer.keyword() == KW_LET:
+                    self._compileLet()
+                elif self._tokenizer.keyword() == KW_IF: #not actually implemented
+                    self._compileIf()
+                elif self._tokenizer.keyword() == KW_WHILE: #also not actually implemented
+                    self._compileWhile()
+                elif self._tokenizer.keyword() == KW_DO:
+                    self._compileDo()
+                elif self._tokenizer.keyword() == KW_RETURN:
+                    self._compileReturn()
+                else:
+                    break
+            else:
+                break
+
+        self._writeXMLTag("</statements>\n")
 
     def _compileLet(self): # DZ
         """
@@ -297,7 +317,7 @@ class Compiler:
         ENTRY: Tokenizer positioned on the first keyword.
         EXIT:  Tokenizer positioned after final ';'.
         """
-        self._writeXMLTag('<letStatement>')
+        self._writeXMLTag('<letStatement>\n')
 
         self._expectKeyword(KW_LET)
         self._writeXML('keyword', 'let')
@@ -310,11 +330,11 @@ class Compiler:
         self._writeXML('symbol', self._tokenizer.symbol())
         self._nextToken()
 
-        self.compileExpression()
+        self._compileExpression()
 
         self._expectSymbol(';')
         self._writeXML('symbol', self._tokenizer.symbol())
-        self._writeXMLTag('</letStatement>')
+        self._writeXMLTag('</letStatement>\n')
 
         self._nextToken()
 
@@ -331,7 +351,7 @@ class Compiler:
         ENTRY: Tokenizer positioned on the first keyword.
         EXIT:  Tokenizer positioned after final ';'.
         """
-        self._writeXMLTag('<returnStatement>')
+        self._writeXMLTag('<doStatement>\n')
 
         self._expectKeyword(KW_DO)
         self._writeXML('keyword', 'do')
@@ -341,7 +361,7 @@ class Compiler:
         self._expectSymbol(";")
         self._writeXML('symbol', ";")
 
-        self._writeXMLTag('</returnStatement>')
+        self._writeXMLTag('</doStatement>\n')
         self._nextToken()
 
     def _compileCall(self, subroutineName = None):
@@ -374,7 +394,7 @@ class Compiler:
             self._nextToken()
 
             sym = self._expectSymbol('(')
-            self._WriteXML('symbol', self._tokenizer.symbol())
+            self._writeXML('symbol', self._tokenizer.symbol())
             self._nextToken()
 
         self._compileExpressionList()
@@ -391,7 +411,7 @@ class Compiler:
         ENTRY: Tokenizer positioned on the first keyword.
         EXIT:  Tokenizer positioned after final ';'.
         """
-        self._writeXMLTag('<returnStatement>')
+        self._writeXMLTag('<returnStatement>\n')
 
         self._expectKeyword(KW_RETURN)
         self._writeXML('keyword', 'return')
@@ -399,17 +419,16 @@ class Compiler:
 
         #return moze biti ili prazan ili s varijablom
         if self._tokenizer.tokenType() == TK_SYMBOL and self._tokenizer.symbol() == ';':
-            self._expectSymbol(';')
-            self._writeXML('symbol', self._tokenizer.symbol())
+            self._writeXML('symbol',";")
+            self._nextToken()
+            self._writeXMLTag('</returnStatement>\n')
 
         else:
             self._compileTerm()
+            self._expectSymbol(";")
+            self._writeXML('symbol',";")
+            self._writeXMLTag('</returnStatement>\n')
             self._nextToken()
-            self._expectSymbol(';')
-            self._writeXML('symbol', self._tokenizer.symbol())
-
-        self._writeXMLTag('</returnStatement>')
-        self._nextToken()
 
     def _compileIf(self):
         """
@@ -530,7 +549,7 @@ class Compiler:
         while True:
             if self._tokenizer.tokenType() == TK_SYMBOL and self._tokenizer.symbol() == ',':
                 self._expectSymbol(',')
-                self.writeXML('symbol', self._tokenizer.symbol())
+                self._writeXML('symbol', self._tokenizer.symbol())
                 self._nextToken()
 
             if self._tokenizer.tokenType() == TK_SYMBOL and self._tokenizer.symbol() == ')':
